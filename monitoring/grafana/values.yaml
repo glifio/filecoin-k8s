@@ -1,10 +1,13 @@
 ## Grafana Chart customizations
 
+# Setup autodiscovery of grafana datasources
+# If a datasource is tagged with grafana_datasource '1' as in config.yaml, it will show up in grafana
 sidecar:
   datasources:
     enabled: true
     label: grafana_datasource
 
+# Set up grafana.com dashboard provider
 dashboardProviders:
   dashboardproviders.yaml:
     apiVersion: 1
@@ -18,6 +21,7 @@ dashboardProviders:
       options:
         path: /var/lib/grafana/dashboards/default 
 
+# Configure dashboards which are pulled from grafana.com
 dashboards:
   default:
     node-exporter:
@@ -28,3 +32,13 @@ dashboards:
       gnetId: 3662
       revision: 2
       datasource: Prometheus
+
+# Configure persistence so changes are saved between upgrades
+persistence:
+  type: pvc
+  enabled: true 
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+  finalizers:
+    - kubernetes.io/pvc-protection
