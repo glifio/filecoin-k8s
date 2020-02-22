@@ -11,7 +11,7 @@ Create the monitoring namespace:
 
 ### Deploy Prometheus
 
-    helm install stable/prometheus --name-template prometheus --namespace monitoring
+    helm install stable/prometheus --name-template prometheus --namespace monitoring --values grafana/values.yam
 
 ### Deploy Grafana
 
