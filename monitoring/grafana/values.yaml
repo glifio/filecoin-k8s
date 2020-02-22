@@ -1,0 +1,30 @@
+## Grafana Chart customizations
+
+sidecar:
+  datasources:
+    enabled: true
+    label: grafana_datasource
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/default 
+
+dashboards:
+  default:
+    node-exporter:
+      gnetId: 1860
+      revision: 14
+      datasource: Prometheus
+    prometheus-2:
+      gnetId: 3662
+      revision: 2
+      datasource: Prometheus
