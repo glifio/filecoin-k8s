@@ -78,3 +78,8 @@ https://grafana.com/grafana/dashboards/1860
 #### Adding custom dashboards
 
 To add custom dashboards, create them in grafana, export the JSON and then upload them to grafana.com. Then, using the above directions, add a config to add the dashboard to the helm chart.
+
+
+### Resources ###
+
+Huge thanks to Christaan Vermeulen for his post: https://medium.com/@chris_linguine/how-to-monitor-your-kubernetes-cluster-with-prometheus-and-grafana-2d5704187fc8
