@@ -11,7 +11,7 @@ Create the monitoring namespace:
 
 ### Deploy Prometheus
 
-    helm install stable/prometheus --name-template prometheus --namespace monitoring --values grafana/values.yam
+    helm install stable/prometheus --name-template prometheus --namespace monitoring --values monitoring/prometheus/values.yaml
 
 ### Deploy Grafana
 
@@ -19,7 +19,7 @@ Create the monitoring namespace:
     kubectl apply -f monitoring/grafana/config.yaml
 
     # Deploy it
-    helm install stable/grafana --name-template grafana --namespace monitoring --values grafana/values.yaml
+    helm install stable/grafana --name-template grafana --namespace monitoring --values monitoring/grafana/values.yaml
 
 ## General usage
 Once they are both spun up, you can portmap to each to see stats. 
