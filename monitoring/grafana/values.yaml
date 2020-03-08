@@ -32,6 +32,10 @@ dashboards:
       gnetId: 3662
       revision: 2
       datasource: Prometheus
+    lotus-node:
+      gnetId: 11865
+      revision: 1
+      datasource: Prometheus
 
 # Configure persistence so changes are saved between upgrades
 persistence:
