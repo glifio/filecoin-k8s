@@ -40,9 +40,9 @@ dashboards:
 # Configure persistence so changes are saved between upgrades
 persistence:
   type: pvc
-  enabled: true 
+  enabled: true
   accessModes:
     - ReadWriteOnce
-  size: 10Gi
+  size: 20Gi
   finalizers:
     - kubernetes.io/pvc-protection

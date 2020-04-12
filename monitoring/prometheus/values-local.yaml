@@ -1,0 +1,11 @@
+## Prometheus Chart customizations 
+
+alertmanager:
+  persistentVolume:
+    storageClass: csi-hostpath-sc
+pushgateway:
+  persistentVolume:
+    storageClass: csi-hostpath-sc
+server:
+  persistentVolume:
+    storageClass: csi-hostpath-sc
