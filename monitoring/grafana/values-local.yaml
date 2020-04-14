@@ -2,5 +2,5 @@
 
 # Configure persistence so changes are saved between upgrades
 persistence:
-  storageClass: csi-hostpath-sc
+  storageClassName: csi-hostpath-sc
   size: 10Gi
