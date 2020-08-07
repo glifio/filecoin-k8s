@@ -1,85 +1,39 @@
 # filecoin-k8s
-Repo for configuring and controlling the Filecoin Kubernetes cluster
+Repo for configuring and controlling the Filecoin Kubernetes cluster monitoring
 
 ## Basic spinup for monitoring components
+#### Requirements:
+- helm v3.2+
+- create slack webhook in your slack workspace, paste in **Makefile** `SLACK-WEBHOOK-URL`
+- create or have public slack channel for alert messages, change it in **Makefile**  `SLACK-CHANNEL`
+- change nodeselector label in `values.yaml`, if your nodes don't have `role: monitoring` labels
+- deploy ingress controller 
+- provide external dns name for grafana dashboard, change it in **Makefile**  `GRAFANA-HOST`
+- generate password for grafana dashboard login(login admin), change it in **Makefile**  `GRAFANA-WEB-PASSWORD`
 
-### Prepare the cluster
+Default settings( may be changed in **Makefile** ):
+- helm chart name: monitoring
+- namespace: monitoring(will be created and used)
 
-Create the monitoring namespace:
+### Deploy monitoring
 
-    kubectl apply -f monitoring/namespace.yaml
+    make create-monitoring
 
-### Deploy Prometheus
-
-    helm install stable/prometheus --name-template prometheus --namespace monitoring --values monitoring/prometheus/values.yaml
-
-### Deploy Grafana
-
-    # Create the config map so grafana can discover prometheus
-    kubectl apply -f monitoring/grafana/config.yaml
-
-    # Deploy it
-    helm install stable/grafana --name-template grafana --namespace monitoring --values monitoring/grafana/values.yaml
+### Upgrade monitoring
+    
+    change parameters in values.yaml or customize Makefile with --set variable
+    make upgrade-monitoring
+    
 
 ## General usage
-Once they are both spun up, you can portmap to each to see stats. 
+Once they are both spun up, you can login to grafana and choose necessary dashboard.
 
-### Prometheus
+If you want to open prometheus, alertmanager ui locally , you may use `kubectl proxy`
 
-Map the port for prometheus:
+**Prometheus**
 
-    kubectl port-forward pod/prometheus-server-$UNIQUE_IDENTIFIER_HERE 9090:9090 --namespace monitoring
+    http://127.0.0.1:8001/api/v1/namespaces/monitoring/services/prometheus-operated:9090/proxy
 
-Open `127.0.0.1:9090` in your local web browser. 
+**Alertmanager**
 
-### Grafana:
-
-    kubectl port-forward grafana-$UNIQUE_IDENTIFIER_HERE 3000:3000 --namespace monitoring
-
-To get the grafana admin password, run the following command:
-
-    kubectl get secret \
-    --namespace monitoring grafana \
-    -o jsonpath="{.data.admin-password}" \
-    | base64 --decode ; echo
-
-
-Open `127.0.0.1:3000` in your local web browser and log in using `admin` and the password retrieved in the prior command
-
-#### Adding dashboards from grafana.com
-
-
-Edit monitoring/grafana/values.yaml and find the following block
-
-
-    dashboards:
-      default:
-
-
-Under the default key, add the config for the dashbaod you want to pull from grafana.com:
-
-    prometheus-2:
-      gnetId: 3662
-      revision: 2
-      datasource: Prometheus
-
- Upgrade via helm:
-
-    helm upgrade --install grafana stable/grafana \
-        -f monitoring/grafana/values.yaml \
-        --namespace monitoring
-
-The dashboad should now appear in grafana
-
-Example dashboards:
-
-https://grafana.com/grafana/dashboards/1860
-
-#### Adding custom dashboards
-
-To add custom dashboards, create them in grafana, export the JSON and then upload them to grafana.com. Then, using the above directions, add a config to add the dashboard to the helm chart.
-
-
-### Resources ###
-
-Huge thanks to Christaan Vermeulen for his post: https://medium.com/@chris_linguine/how-to-monitor-your-kubernetes-cluster-with-prometheus-and-grafana-2d5704187fc8
+    http://127.0.0.1:8001/api/v1/namespaces/monitoring/services/alertmanager-operated:9093/proxy/

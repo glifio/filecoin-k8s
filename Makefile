@@ -1,27 +1,36 @@
-install:
-	kubectl apply -f monitoring/namespace.yaml
-	helm install stable/prometheus --name-template prometheus --namespace monitoring -f monitoring/prometheus/values.yaml
-	kubectl apply -f monitoring/grafana/config.yaml
-	helm install stable/grafana --name-template grafana --namespace monitoring -f monitoring/grafana/values.yaml
+#helm installation name
+NAME = monitoring
+#namespace to install monitoring
+NAMESPACE = monitoring
+#version prometheus-operator helm chart
+VERSION-PROM-OPERATOR = 9.3.0
+#grafana external hostname
+GRAFANA-HOST = "example.local"
+#admin user password in grafana
+GRAFANA-WEB-PASSWORD = "CHANGEME"
+SLACK-WEBHOOK-URL = "https://hooks.slack.com/"CHANGEME""
+#notification channel name in slack. do not delete "\". it screens "#"
+SLACK-CHANNEL = "\#CHANGEME"
 
-install-local:
-	kubectl apply -f monitoring/namespace.yaml
-	helm install stable/prometheus --name-template prometheus --namespace monitoring -f monitoring/prometheus/values.yaml -f monitoring/prometheus/values-local.yaml
-	kubectl apply -f monitoring/grafana/config.yaml
-	helm install stable/grafana --name-template grafana --namespace monitoring -f monitoring/grafana/values.yaml -f monitoring/grafana/values-local.yaml
+.PHONY:
+upgrade-monitoring:
+	helm upgrade --install $(NAME) stable/prometheus-operator -n monitoring \
+	--version $(VERSION-PROM-OPERATOR) \
+	-f values.yaml \
+	--set grafana.adminPassword=$(GRAFANA-WEB-PASSWORD) \
+	--set grafana.ingress.hosts[0]=$(GRAFANA-HOST) \
+	--set alertmanager.config.global.slack_api_url=$(SLACK-WEBHOOK-URL) \
+	--set alertmanager.config.receivers[0].slack_configs[0].channel=$(SLACK-CHANNEL)
 
-upgrade:
-	helm upgrade prometheus stable/prometheus --namespace monitoring -f monitoring/prometheus/values.yaml
-	helm upgrade grafana stable/grafana --namespace monitoring -f monitoring/grafana/values.yaml
 
-upgrade-local:
-	helm upgrade prometheus stable/prometheus --namespace monitoring -f monitoring/prometheus/values.yaml -f monitoring/prometheus/values-local.yaml
-	helm upgrade grafana stable/grafana --namespace monitoring -f monitoring/grafana/values.yaml -f monitoring/grafana/values-local.yaml 
-
-uninstall:
-	helm uninstall prometheus --namesapce monitoring
-	helm uninstall grafana --namesapce monitoring
-
-dry-run:
-	helm upgrade --install --dry-run stable/prometheus --name-template prometheus --namespace monitoring -f monitoring/prometheus/values.yaml
-	helm upgrade --install --dry-run stable/grafana --name-template grafana --namespace monitoring -f monitoring/grafana/values.yaml
+create-monitoring:
+	kubectl create ns $(NAMESPACE)
+	helm repo add stable https://kubernetes-charts.storage.googleapis.com
+	helm repo update
+	helm install -n $(NAMESPACE) $(NAME) stable/prometheus-operator \
+	--version $(VERSION-PROM-OPERATOR) \
+	-f values.yaml \
+	--set grafana.adminPassword=$(GRAFANA-WEB-PASSWORD) \
+	--set grafana.ingress.hosts[0]=$(GRAFANA-HOST) \
+	--set alertmanager.config.global.slack_api_url=$(SLACK-WEBHOOK-URL) \
+	--set alertmanager.config.receivers[0].slack_configs[0].channel=$(SLACK-CHANNEL)

@@ -1,6 +1,0 @@
-## Grafana Chart customizations
-
-# Configure persistence so changes are saved between upgrades
-persistence:
-  storageClassName: csi-hostpath-sc
-  size: 10Gi
