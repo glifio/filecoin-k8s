@@ -26,7 +26,6 @@ upgrade-monitoring:
 create-monitoring:
 	kubectl create ns $(NAMESPACE)
 	helm repo add stable https://kubernetes-charts.storage.googleapis.com
-	helm repo update
 	helm install -n $(NAMESPACE) $(NAME) stable/prometheus-operator \
 	--version $(VERSION-PROM-OPERATOR) \
 	-f values.yaml \

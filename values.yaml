@@ -68,7 +68,7 @@ defaultRules:
 ## Provide custom recording or alerting rules to be deployed into the cluster.
 ##
 additionalPrometheusRules: []
-#  - name: my-rule-file
+#  - name: my-rule.yaml-file
 #    groups:
 #      - name: my_group
 #        rules:
@@ -1377,7 +1377,7 @@ prometheusOperator:
     tag: v0.3.0
     sha: ""
 
-  ## Prometheus-config-reloader image to use for config and rule reloading
+  ## Prometheus-config-reloader image to use for config and rule.yaml reloading
   ##
   prometheusConfigReloaderImage:
     repository: quay.io/coreos/prometheus-config-reloader
