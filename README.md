@@ -7,13 +7,16 @@ Repo for configuring and controlling the Filecoin Kubernetes cluster monitoring
 - create slack webhook in your slack workspace, paste in **Makefile** `SLACK-WEBHOOK-URL`
 - create or have public slack channel for alert messages, change it in **Makefile**  `SLACK-CHANNEL`
 - change nodeselector label in `values.yaml`, if your nodes don't have `role: monitoring` labels
+- chage lotus node labels in `values.yaml` in `additionalServiceMonitors` section, if your lotus application doesn't use `app: lotus-node-app` label
 - deploy ingress controller 
 - provide external dns name for grafana dashboard, change it in **Makefile**  `GRAFANA-HOST`
 - generate password for grafana dashboard login(login admin), change it in **Makefile**  `GRAFANA-WEB-PASSWORD`
+- change `NODE-NAMESPACE` to lotus node namespace
 
 Default settings( may be changed in **Makefile** ):
 - helm chart name: monitoring
-- namespace: monitoring(will be created and used)
+- monitoring namespace: monitoring(will be created and used)
+- lotus node namespace: calibrationnet
 
 ### Deploy monitoring
 
