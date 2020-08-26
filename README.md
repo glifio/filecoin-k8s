@@ -11,12 +11,11 @@ Repo for configuring and controlling the Filecoin Kubernetes cluster monitoring
 - deploy ingress controller 
 - provide external dns name for grafana dashboard, change it in **Makefile**  `GRAFANA-HOST`
 - generate password for grafana dashboard login(login admin), change it in **Makefile**  `GRAFANA-WEB-PASSWORD`
-- change `NODE-NAMESPACE` in **Makefile** to lotus node namespace, if isn't `calibrationnet`
 
-Default settings( may be changed in **Makefile** ):
+Default settings( may be changed in **Makefile** or in **values.yaml** ):
 - helm chart name: monitoring
 - monitoring namespace: monitoring(will be created and used)
-- lotus node namespace: calibrationnet
+- lotus node namespace: calibrationnet(you may change it to your own in file **values.yaml** in section `prometheus.prometheusSpec.additionalServiceMonitors.namespaceSelector.matchNames`)
 
 ### Deploy monitoring
 

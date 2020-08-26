@@ -2,8 +2,6 @@
 NAME = monitoring
 #namespace to install monitoring
 NAMESPACE = monitoring
-#node namespace. default: calibrationnet
-NODE-NAMESPACE = calibrationnet
 #version prometheus-operator helm chart
 VERSION-PROM-OPERATOR = 9.3.0
 #grafana external hostname
@@ -19,7 +17,6 @@ upgrade-monitoring:
 	helm upgrade --install $(NAME) stable/prometheus-operator -n monitoring \
 	--version $(VERSION-PROM-OPERATOR) \
 	-f values.yaml \
-	--set prometheus.prometheusSpec.additionalServiceMonitors.namespaceSelector.matchNames=$(NODE-NAMESPACE) \
 	--set grafana.adminPassword=$(GRAFANA-WEB-PASSWORD) \
 	--set grafana.ingress.hosts[0]=$(GRAFANA-HOST) \
 	--set alertmanager.config.global.slack_api_url=$(SLACK-WEBHOOK-URL) \
@@ -32,7 +29,6 @@ create-monitoring:
 	helm install -n $(NAMESPACE) $(NAME) stable/prometheus-operator \
 	--version $(VERSION-PROM-OPERATOR) \
 	-f values.yaml \
-	--set prometheus.prometheusSpec.additionalServiceMonitors.namespaceSelector.matchNames=$(NODE-NAMESPACE) \
 	--set grafana.adminPassword=$(GRAFANA-WEB-PASSWORD) \
 	--set grafana.ingress.hosts[0]=$(GRAFANA-HOST) \
 	--set alertmanager.config.global.slack_api_url=$(SLACK-WEBHOOK-URL) \
