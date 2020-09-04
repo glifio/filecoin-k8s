@@ -140,7 +140,7 @@ alertmanager:
       group_by: ['job']
       group_wait: 30s
       group_interval: 15m
-      repeat_interval: 10m
+      repeat_interval: 12h
       receiver: "slack-notification"
       routes:
         - match:
@@ -2019,6 +2019,7 @@ prometheus:
       namespaceSelector:
         matchNames:
           - calibrationnet
+          - spacerace
       endpoints:
         - interval: 30s
           path: /debug/metrics
