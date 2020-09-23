@@ -1,9 +1,10 @@
+
 #helm installation name
 NAME = monitoring
 #namespace to install monitoring
 NAMESPACE = monitoring
 #version prometheus-operator helm chart
-VERSION-PROM-OPERATOR = 9.3.0
+VERSION-PROM-OPERATOR = 9.4.4
 #grafana external hostname
 GRAFANA-HOST = "example.local"
 #admin user password in grafana
@@ -14,22 +15,23 @@ SLACK-CHANNEL = "\#CHANGEME"
 
 .PHONY:
 upgrade-monitoring:
-	helm upgrade --install $(NAME) stable/prometheus-operator -n monitoring \
-	--version $(VERSION-PROM-OPERATOR) \
+	helm upgrade --install -n $(NAMESPACE) $(NAME) prometheus-community/kube-prometheus-stack \
 	-f values.yaml \
+	--set prometheusOperator.createCustomResource=false \
 	--set grafana.adminPassword=$(GRAFANA-WEB-PASSWORD) \
 	--set grafana.ingress.hosts[0]=$(GRAFANA-HOST) \
 	--set alertmanager.config.global.slack_api_url=$(SLACK-WEBHOOK-URL) \
-	--set alertmanager.config.receivers[0].slack_configs[0].channel=$(SLACK-CHANNEL)
-
+	--set alertmanager.config.receivers[0].slack_configs[0].channel=$(SLACK-CHANNEL) \
+	--version $(VERSION-PROM-OPERATOR) \
 
 create-monitoring:
-	kubectl create ns $(NAMESPACE)
+#	kubectl create ns $(NAMESPACE)
 	helm repo add stable https://kubernetes-charts.storage.googleapis.com
-	helm install -n $(NAMESPACE) $(NAME) stable/prometheus-operator \
-	--version $(VERSION-PROM-OPERATOR) \
+	helm repo update
+	helm upgrade --install -n $(NAMESPACE) $(NAME) prometheus-community/kube-prometheus-stack \
 	-f values.yaml \
 	--set grafana.adminPassword=$(GRAFANA-WEB-PASSWORD) \
 	--set grafana.ingress.hosts[0]=$(GRAFANA-HOST) \
 	--set alertmanager.config.global.slack_api_url=$(SLACK-WEBHOOK-URL) \
-	--set alertmanager.config.receivers[0].slack_configs[0].channel=$(SLACK-CHANNEL)
+	--set alertmanager.config.receivers[0].slack_configs[0].channel=$(SLACK-CHANNEL) \
+	--version $(VERSION-PROM-OPERATOR)

@@ -23,6 +23,59 @@
       "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 13,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "displayMode": "gradient",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "7.0.3",
+      "targets": [
+        {
+          "expr": "lotus_peer_count",
+          "interval": "",
+          "legendFormat": "{{ pod }}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Filecoin Network Peers",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
           "custom": {},
           "mappings": [],
           "thresholds": {
@@ -38,9 +91,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 24,
-        "x": 0,
+        "h": 7,
+        "w": 11,
+        "x": 13,
         "y": 0
       },
       "id": 2,
@@ -81,6 +134,7 @@
     },
     {
       "datasource": "Prometheus",
+      "description": " Counter for total dropped RPCs",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -91,7 +145,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "super-light-orange",
                 "value": null
               }
             ]
@@ -100,14 +154,14 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 24,
+        "h": 7,
+        "w": 13,
         "x": 0,
-        "y": 6
+        "y": 7
       },
-      "id": 6,
+      "id": 17,
       "options": {
-        "displayMode": "gradient",
+        "displayMode": "basic",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -121,15 +175,71 @@
       "pluginVersion": "7.0.3",
       "targets": [
         {
-          "expr": "lotus_peer_count",
+          "expr": "lotus_rpc_response_error",
+          "format": "time_series",
+          "instant": false,
           "interval": "",
-          "legendFormat": "{{ pod }}",
+          "legendFormat": "{{ service }}",
+          "refId": "D"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "error method=\"Filecoin.MpoolPushMessage\"",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": " Counter for total received RPCs",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "super-light-orange",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 10,
+        "x": 13,
+        "y": 7
+      },
+      "id": 19,
+      "options": {
+        "displayMode": "basic",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "7.0.3",
+      "targets": [
+        {
+          "expr": "lotus_pubsub_recv_rpc",
+          "interval": "",
+          "legendFormat": "{{ service }} received",
           "refId": "A"
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Filecoin Network Peers",
+      "title": "RPC received",
       "type": "bargauge"
     },
     {
@@ -147,13 +257,13 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 11,
+        "h": 9,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 14
       },
       "hiddenSeries": false,
-      "id": 12,
+      "id": 18,
       "legend": {
         "avg": false,
         "current": false,
@@ -179,125 +289,33 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "(lotus_block_success)",
-          "interval": "",
-          "legendFormat": "{{ service }}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Block Success",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 22
-      },
-      "hiddenSeries": false,
-      "id": 10,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sum(lotus_message_received)",
-          "interval": "",
-          "legendFormat": "received messages",
-          "refId": "A"
-        },
-        {
-          "expr": "sum(lotus_message_success)",
-          "interval": "",
-          "legendFormat": "success messages",
-          "refId": "B"
-        },
-        {
-          "expr": "sum(lotus_message_failure)",
+          "expr": "sum(lotus_pubsub_rejected)",
           "format": "time_series",
           "instant": false,
           "interval": "",
-          "legendFormat": "failure messages",
+          "legendFormat": "total rejected messages",
           "refId": "C"
+        },
+        {
+          "expr": "sum(lotus_pubsub_drop_rpc)",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "total dropped RPCs",
+          "refId": "D"
+        },
+        {
+          "expr": "sum(lotus_pubsub_send_rpc)",
+          "interval": "",
+          "legendFormat": "total sent RPCs",
+          "refId": "B"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Message Stats",
+      "title": "RPC counts(sum)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -335,60 +353,98 @@
       }
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
       "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": null
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "rgb(10, 10, 10)",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
+          "custom": {}
         },
         "overrides": []
       },
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 3,
+        "h": 9,
         "w": 12,
-        "x": 12,
-        "y": 22
+        "x": 0,
+        "y": 23
       },
-      "id": 14,
+      "hiddenSeries": false,
+      "id": 12,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "vertical",
-        "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
-          "fields": "",
-          "values": false
-        }
+        "dataLinks": []
       },
-      "pluginVersion": "7.0.3",
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
-          "expr": "(lotus_info)",
-          "instant": true,
+          "expr": "lotus_block_validation_ms_count",
           "interval": "",
-          "legendFormat": "{{ pod }}- {{ version }}",
+          "legendFormat": "{{ service }}",
           "refId": "A"
         }
       ],
+      "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
-      "title": "Node Versions",
-      "type": "stat"
+      "title": "Duration for Block Validation in ms",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
       "datasource": "Prometheus",
@@ -408,7 +464,7 @@
               },
               {
                 "color": "#EAB839",
-                "value": 5000
+                "value": 25000
               }
             ]
           }
@@ -416,10 +472,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 12,
-        "y": 25
+        "y": 23
       },
       "id": 16,
       "options": {
@@ -449,9 +505,65 @@
       "timeShift": null,
       "title": "Lotus memory allocated(MB)",
       "type": "bargauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(10, 10, 10)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        }
+      },
+      "pluginVersion": "7.0.3",
+      "targets": [
+        {
+          "expr": "(lotus_info)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{ pod }}- {{ version }}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Node Versions",
+      "type": "stat"
     }
   ],
-  "refresh": "1m",
+  "refresh": "10s",
   "schemaVersion": 25,
   "style": "dark",
   "tags": [],
@@ -459,7 +571,7 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -478,5 +590,5 @@
   "timezone": "",
   "title": "Lotus Node Health",
   "uid": "x3NuO5_Zz",
-  "version": 4
+  "version": 29
 }

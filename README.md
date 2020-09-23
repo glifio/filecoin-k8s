@@ -15,7 +15,7 @@ Repo for configuring and controlling the Filecoin Kubernetes cluster monitoring
 Default settings( may be changed in **Makefile** or in **values.yaml** ):
 - helm chart name: monitoring
 - monitoring namespace: monitoring(will be created and used)
-- lotus node namespace: calibrationnet(you may change it to your own in file **values.yaml** in section `prometheus.prometheusSpec.additionalServiceMonitors.namespaceSelector.matchNames`)
+- lotus node namespace: spacerace(you may change it to your own in file **values.yaml** in section `prometheus.prometheusSpec.additionalServiceMonitors.namespaceSelector.matchNames`)
 
 ### Deploy monitoring
 
